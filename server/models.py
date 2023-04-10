@@ -13,14 +13,18 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__= "users"
 
-    # serialize_rules = ('-')
+    serialize_rules = ('-trails', '-gears', '-reviews')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String)
     full_name = db.Column(db.String)
+    image_url = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
+    
+    reviews = db.relationship('Review', backref='user')
+    # trails = db.relationship('Trail', backref='user')
 
     @hybrid_property
     def password_hash(self):
@@ -39,6 +43,8 @@ class User(db.Model, SerializerMixin):
 class Trail(db.Model, SerializerMixin):
     __tablename__ = 'trails'
 
+    serialize_rules= ('-review.trails', '-review.user._password_hash','-review.user_id', '-review_id')
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     location = db.Column(db.String)
@@ -51,31 +57,46 @@ class Trail(db.Model, SerializerMixin):
 
     review_id = db.Column(db.Integer, db.ForeignKey("reviews.id"))
     gear_id = db.Column(db.Integer, db.ForeignKey("gears.id"))
+    # checklist_id = db.Column(db.Integer, db.ForeignKey('checklists.id'))
+    # checklist = db.relationship('Checklist', backref='trail')
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
-    # serialize_rules = ('-')
+    serialize_rules = ('-users', '-trails.review_id', '-trails.review')
 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
     review_text = db.Column(db.String)
     rating = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    trail_id = db.Column(db.Integer, db.ForeignKey("trails.id"))
+    trails = db.relationship('Trail', backref='review')
+    # trail_id = db.Column(db.Integer, db.ForeignKey("trails.id"))
+
+    @validates('rating')
+    def validate_rating_col(self, key, rating):
+        if not 1 <= rating <= 10:
+            raise ValueError('Rating must be between 1 and 10')
+        else:
+            return rating
 
 class Gear(db.Model, SerializerMixin):
     __tablename__ = 'gears'
 
-    # serialize_rules = ('-')
+    serialize_rules = ('-trails', '-users', '-reviews')
 
     id = db.Column(db.Integer, primary_key=True)
     item = db.Column(db.String)
-    # type = db.Column(db.String)
+    description = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
+
+    trails = db.relationship('Trail', backref='gear')
+
+
 
 class Checklist(db.Model, SerializerMixin):
     __tablename__ = 'checklists'
@@ -86,3 +107,5 @@ class Checklist(db.Model, SerializerMixin):
     items = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
+
+

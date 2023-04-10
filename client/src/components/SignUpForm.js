@@ -5,8 +5,9 @@ function SignUpForm({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [full_name, setFullName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [bio, setBio] = useState("");
+  // const [bio, setBio] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,11 +21,11 @@ function SignUpForm({ onLogin }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        full_name,
         username,
         password,
         password_confirmation: passwordConfirmation,
         image_url: imageUrl,
-        bio,
       }),
     }).then((r) => {
       setIsLoading(false);
@@ -38,6 +39,16 @@ function SignUpForm({ onLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <FormField>
+        <Label htmlFor="full_name">Full Name</Label>
+        <Input
+          type="text"
+          id="full_name"
+          autoComplete="off"
+          value={full_name}
+          onChange={(e) => setFullName(e.target.value)}
+        />
+      </FormField>
       <FormField>
         <Label htmlFor="username">Username</Label>
         <Input
@@ -75,15 +86,6 @@ function SignUpForm({ onLogin }) {
           id="imageUrl"
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="bio">Bio</Label>
-        <Textarea
-          rows="3"
-          id="bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
         />
       </FormField>
       <FormField>
