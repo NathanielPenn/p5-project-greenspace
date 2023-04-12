@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Box, Button } from "../styles";
+import { Grid, Header, Card } from 'semantic-ui-react'
 
-function TrailList() {
+function Trails() {
+  const { id } = useParams();
   const [trails, setTrails] = useState([]);
+  const [trail, setTrail] = useState(null);
 
   useEffect(() => {
     fetch("/trails")
@@ -13,20 +16,26 @@ function TrailList() {
       .then(setTrails);
   }, []);
 
+  useEffect(() => {
+    fetch(`/trails/${id}`)
+      .then(response => response.json())
+      .then(data => setTrail(data))
+      .catch(error => console.error(error));
+  }, [id]);
+
+  // console.log(trail);
   return (
-    <Wrapper>
+    <Card.Content>
       {trails.length > 0 ? (
         trails.map((trail) => (
           <Trail key={trail.id}>
-            <Box>
-              {/* <h2>{trail.title}</h2>
+            <div>
+              <NavLink as={Link} to={`/trails/${trail.id}`}>{trail.name}</NavLink>
               <p>
-                <em>Time to Complete: {trail.minutes_to_complete} minutes</em>
-                &nbsp;·&nbsp;
-                <cite>By {trail.user.username}</cite>
+                {trail.location}, {trail.state}<br />
+                Length: {trail.distance} miles
               </p>
-              <ReactMarkdown>{trail.instructions}</ReactMarkdown> */}
-            </Box>
+            </div>
           </Trail>
         ))
       ) : (
@@ -37,7 +46,7 @@ function TrailList() {
           </Button> */}
         </>
       )}
-    </Wrapper>
+    </Card.Content>
   );
 }
 
@@ -50,4 +59,4 @@ const Trail = styled.article`
   margin-bottom: 24px;
 `;
 
-export default TrailList;
+export default Trails;

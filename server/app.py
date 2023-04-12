@@ -107,8 +107,36 @@ class Reviews(Resource):
                 return {'error': '422 Unprocessable Entity'}, 422
 
         return {'error': '401 Unauthorized'}, 401
-        
 
+    def patch(self, id):
+
+        data = request.get_json()
+
+        review = Review.query.filter_by(id=id).first()
+
+        for attr in data:
+            setattr(review, attr, data[attr])
+
+        db.session.add(review)
+        db.session.commit()
+
+        return make_response(review.to_dict(), 200)
+
+    def delete(self, id):
+        review = Review.query.filter_by(id=id).first()
+        if not review:
+            return make_response(
+                jsonify({'error': 'Review not found'}),
+                404
+            )
+        db.session.delete(review)
+        db.session.commit()
+
+        return make_response(
+            jsonify({'message': 'Review successfully deleted', 'id':id}),
+            200
+        )
+        
 api.add_resource(Reviews, '/reviews')
 
 class ReviewByID(Resource):
@@ -157,8 +185,6 @@ class ReviewByID(Resource):
         )
     
 api.add_resource(ReviewByID, '/reviews/<int:id>')
-
-
 
 class Signup(Resource):
     
