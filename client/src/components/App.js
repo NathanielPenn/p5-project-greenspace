@@ -68,7 +68,7 @@ function App() {
               <GearPage gears = {gears}/>
             </Route>
             <Route path="/reviews" >
-              <ReviewPage reviews = {review} />
+              <ReviewPage reviews = {review} setReviews = {setReview} />
             </Route>
           </Switch>
         </main>

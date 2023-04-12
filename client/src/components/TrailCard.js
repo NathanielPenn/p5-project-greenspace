@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Comment } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
-function TrailCard({
-  name,
-  location,
-  state,
-  distance,
-  elevation,
-  difficulty,
-  // reviews
-}) {
+function TrailCard({ 
+    // name,
+    // location,
+    // state,
+    // distance,
+    // elevation,
+    // difficulty,
+    // // reviews}
+  
+}) 
+{
+  const { id } = useParams();
+  const [trail, setTrail] = useState(null);
+
+    useEffect(() => {
+    fetch(`/trails/${id}`)
+      .then(response => response.json())
+      .then(data => setTrail(data))
+      .catch(error => console.error(error));
+  }, [id]);
   // CHANGE CARD TO BACK TO SEE THE MAP LOCATION?
   // const [showFront, setShowFront] = useState(true);
 
   // const toggleCard = () => {
   //   setShowFront(!showFront);
   // };
+  if (trail){
+  console.log(trail)
+  // console.log({ name, location, state, distance, elevation, difficulty });
+  const {name, location, state, distance, elevation, difficulty } = trail
 
 
   return (
@@ -54,4 +69,9 @@ function TrailCard({
 );
 
 }
+else {
+  return (
+    <h1>Loading...</h1>
+  )
+}}
 export default TrailCard;

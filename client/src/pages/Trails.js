@@ -6,9 +6,9 @@ import { Box, Button } from "../styles";
 import { Grid, Header, Card } from 'semantic-ui-react'
 
 function Trails() {
-  const { id } = useParams();
+  // const { id } = useParams();
   const [trails, setTrails] = useState([]);
-  const [trail, setTrail] = useState(null);
+  // const [trail, setTrail] = useState(null);
 
   useEffect(() => {
     fetch("/trails")
@@ -16,12 +16,6 @@ function Trails() {
       .then(setTrails);
   }, []);
 
-  useEffect(() => {
-    fetch(`/trails/${id}`)
-      .then(response => response.json())
-      .then(data => setTrail(data))
-      .catch(error => console.error(error));
-  }, [id]);
 
   // console.log(trail);
   return (
@@ -37,6 +31,7 @@ function Trails() {
               </p>
             </div>
           </Trail>
+          
         ))
       ) : (
         <>

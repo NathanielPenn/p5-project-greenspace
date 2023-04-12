@@ -1,28 +1,184 @@
 
+// import React, { useEffect, useState } from "react";
+// import Review from "../pages/Review"
+// import {Card} from "semantic-ui-react";
+
+// function ReviewPage({reviews}){
+
+//     const [updatedReviews, setUpdatedReviews] = useState(reviews);
+//     // const [isEditing, setIsEditing] = useState(reviews);
+
+//     const handleReviewSave = (index, updatedReview) => {
+//         fetch(`/reviews/${updatedReview.id}`, {
+//           method: 'PATCH',
+//           headers: {
+//             'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(updatedReview)
+//         })
+//         .then(response => {
+//           if (!response.ok) {
+//             throw new Error('Failed to update review');
+//           }
+//           return response.json();
+//         })
+//         .then(data => {
+//           setUpdatedReviews((prevReviews) => {
+//             const newReviews = [...prevReviews];
+//             newReviews[index] = data;
+//             return newReviews;
+//           });
+//         })
+//         .catch(error => {
+//           console.error(error);
+//         });
+//       }
+
+//     // const handleReviewSave = (index, updatedReview) => {
+//     //     setUpdatedReviews((prevReviews) => {
+//     //         const newReviews = [...prevReviews];
+//     //         newReviews[index] = updatedReview;
+//     //         return newReviews;
+//     //     });
+//     // };
+    
+//     const handleEditClick = (index) => {
+//         setUpdatedReviews((prevReviews) => {
+//             const newReviews = [...prevReviews];
+//             newReviews[index].isEditing = true;
+//             return newReviews;
+//         });
+//     };
+
+
+    
+    
+//     const review = reviews?.length > 0 && reviews.map((review, index) => {
+
+//         return (
+            
+//             <Review
+//                 key = {index}
+//                 title = {review.title}
+//                 review_text = {review.review_text}
+//                 rating = {review.rating}
+//                 user = {review.user_id}
+//                 onEditClick={() => handleEditClick(index)}
+//                 onSaveClick={(updatedTitle, updatedReviewText) =>
+//                     handleReviewSave(index, {
+//                         ...review,
+//                         title: updatedTitle,
+//                         review_text: updatedReviewText
+//                     })
+//                 }
+//             />
+//         );
+//     });
+
+//     return (
+//     <Card.Group itemsPerRow={4}>
+//       {review}
+//     </Card.Group>
+    
+//     )
+// }
+
+// export default ReviewPage;
+
 import React, { useEffect, useState } from "react";
 import Review from "../pages/Review"
-import {Card} from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 
-function ReviewPage({reviews}){
-    
-    const review = reviews?.length > 0 && reviews.map((review) => {
+function ReviewPage({reviews, setReviews}) {
 
-        return (
-            
-            <Review
-                title = {review.title}
-                review_text = {review.review_text}
-                rating = {review.rating}
-                user = {review.user_id}
-            />
-        );
+  const handleReviewDelete = (index) => {
+    const reviewId = reviews[index].id;
+    fetch(`/reviews/${reviewId}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to delete review');
+      }
+      setReviews((prevReviews) => {
+        const newReviews = [...prevReviews];
+        newReviews.splice(index, 1);
+        return newReviews;
+      });
+    })
+    .catch(error => {
+      console.error(error);
     });
+  };
 
+  const handleReviewSave = (index, updatedReview) => {
+    console.log(updatedReview)
+    console.log(index)
+    fetch(`/reviews/${updatedReview.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: updatedReview.title,
+        review_text: updatedReview.review_text,
+        rating: updatedReview.rating
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to update review');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setReviews((prevReviews) => {
+        const newReviews = [...prevReviews];
+        newReviews[index] = data;
+        return newReviews;
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  const handleEditClick = (index) => {
+    setReviews((prevReviews) => {
+      const newReviews = [...prevReviews];
+      newReviews[index].isEditing = true;
+      return newReviews;
+    });
+  };
+
+  const review = reviews?.length > 0 && reviews.map((review, index) => {
     return (
+      <Review
+        key={index}
+        title={review.title}
+        review_text={review.review_text}
+        rating={review.rating}
+        user={review.user_id}
+        onDeleteClick={() => handleReviewDelete(index)}
+        onEditClick={() => handleEditClick(index)}
+        onSaveClick={(updatedTitle, updatedReviewText) =>
+          handleReviewSave(index, {
+            ...review,
+            title: updatedTitle,
+            review_text: updatedReviewText
+          })
+        }
+        isEditing={review.isEditing}
+        setReviews={setReviews}
+      />
+    );
+  });
+
+  return (
     <Card.Group itemsPerRow={4}>
       {review}
     </Card.Group>
-    )
+  );
 }
 
 export default ReviewPage;
