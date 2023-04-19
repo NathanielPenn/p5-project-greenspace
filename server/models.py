@@ -69,7 +69,7 @@ class Trail(db.Model, SerializerMixin):
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
-    serialize_only = ( 'id', 'title', 'review_text', 'rating', 'user_id', 'trail_id', 'user.username')
+    serialize_only = ( 'id', 'title', 'review_text', 'rating', 'user_id', 'trail_id', 'user.username', 'trail.name')
     # serialize_rules = ('-users', '-trail.reviews', '-created_at', 'trail')
 
     # serialize_rules = ('-users', '-trails.review_id', '-trails.review', '-created_at','-trails' )

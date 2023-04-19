@@ -13,7 +13,8 @@ function TrailCard({
     user,
     onSaveClick,
     handleSaveClick,
-    setRefresh
+    setRefresh,
+    refresh
   
 }) 
 {
@@ -34,7 +35,7 @@ function TrailCard({
       .then(response => response.json())
       .then(data => setTrailReviews(data))
       .catch(error => console.error(error));
-  }, [id]);
+  }, [id, refresh]);
 
   function addReview(newReview) {
     setReviews([newReview, ...reviews])
@@ -75,6 +76,7 @@ function TrailCard({
       console.error(error);
     });
   }
+  
   // CHANGE CARD TO BACK TO SEE THE MAP LOCATION?
   // const [showFront, setShowFront] = useState(true);
 
@@ -102,7 +104,6 @@ function TrailCard({
         <p>Difficulty: {difficulty}</p>
       </Card.Description>
       <Card.Content>
-        {/* <Review id = {id} reviews = {reviews}/> */}
         {Array.isArray(trailReviews) && trailReviews.map((review, index) => (
               <Review
                 key={review.id}
@@ -110,6 +111,7 @@ function TrailCard({
                 review_text={review.review_text}
                 rating={review.rating}
                 user = {review.user.username}
+                name = {review.trail.name}
                 onDeleteClick={() => handleReviewDelete(index, review.id)}
                 onSaveClick={(updatedTitle, updatedReviewText, updatedRating) =>
                   handleReviewSave(index, {
@@ -120,6 +122,7 @@ function TrailCard({
                   })
                 }
                 setReviews = {setReviews}
+                // setTrailReviews = {setTrailReviews}
               />
         ))}
       </Card.Content>
@@ -129,7 +132,7 @@ function TrailCard({
               {showReviewForm ? "Cancel" : "Leave a Review"}
             </button>
           </div>
-          {showReviewForm && <ReviewForm setTrailReiews = {setTrailReviews} setRefresh = {setRefresh} addReview = {addReview} id = {id} />}
+          {showReviewForm && <ReviewForm setReviews ={setReviews} setTrailReiews = {setTrailReviews} setRefresh = {setRefresh} addReview = {addReview} id = {id} />}
         </Card.Content>
     </Card.Content>
   </Card>

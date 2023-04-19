@@ -232,7 +232,7 @@ import {UserContext} from "../components/App";
 // export default Review;
 
 
-function Review({ index, title, review_text, rating, onDeleteClick, onEditClick, onSaveClick, review, setReviews, user_id, user }) {
+function Review({ index, title, review_text, rating, onDeleteClick, onEditClick, onSaveClick, review, setReviews, user, name }) {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(title);
   const [updatedReviewText, setUpdatedReviewText] = useState(review_text);
@@ -286,6 +286,7 @@ function Review({ index, title, review_text, rating, onDeleteClick, onEditClick,
           )}
         </Card.Header>
         <Card.Meta>
+          <span>Trail: {name}<br/></span>
           <span>Author: {user}<br/></span>
           <Rating 
               icon='star' 

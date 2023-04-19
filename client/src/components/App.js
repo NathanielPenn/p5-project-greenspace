@@ -8,8 +8,8 @@ import ReviewPage from "./ReviewPage";
 import GearPage from "./GearPage";
 import Gear from "../pages/Gear";
 import TrailCard from "./TrailCard"
-import TrailCollection from "./TrailCollection"
-import TrailsModal from "./TrailsModal"
+// import TrailCollection from "./TrailCollection"
+// import TrailsModal from "./TrailsModal"
 import '../index.css'
 // import backgroundImage from '../styles/80532.jpg'
 
@@ -59,7 +59,8 @@ function App() {
       // const newReviews = [...reviews];
       // newReviews.splice(index, 1);
       setReviews(reviews.filter(review => reviewId !== review.id ));
-      console.log(reviews)
+      setRefresh(prev => !prev);
+      // console.log(reviews)
     })
     .catch(error => console.error(error));
   };
@@ -79,7 +80,7 @@ function App() {
               <Trails/>
             </Route>
             <Route path={`/trails/:id`}>
-              <TrailCard setRefresh = {setRefresh} reviews = {reviews} trail= {trails} setReviews={setReviews} handleReviewDelete= {handleReviewDelete}/>
+              <TrailCard refresh = {refresh} setRefresh = {setRefresh} reviews = {reviews} trail= {trails} setReviews={setReviews} handleReviewDelete= {handleReviewDelete}/>
             </Route>
             <Route path="/gear" >
               <GearPage gears = {gears}/>

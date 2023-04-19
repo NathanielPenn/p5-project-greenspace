@@ -73,6 +73,7 @@ function ReviewPage({reviews, setReviews}) {
         review_text={review.review_text}
         rating={review.rating}
         user={review.user.username}
+        name = {review.trail.name}
         onDeleteClick={() => handleReviewDelete(index, review.id)}
         onEditClick={() => handleEditClick(index)}
         onSaveClick={(updatedTitle, updatedReviewText, updatedRating) =>

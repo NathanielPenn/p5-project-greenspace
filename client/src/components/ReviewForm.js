@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
 import {Form} from 'semantic-ui-react'
 
-function ReviewForm({ id, addReview, setRefresh}) {
+function ReviewForm({ id, addReview, setRefresh, setReviews, setTrailReviews}) {
 //   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
   const [review_text, setReviewText] = useState("");
@@ -23,7 +23,6 @@ function ReviewForm({ id, addReview, setRefresh}) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            // username,
             title,
             review_text,
             rating,
