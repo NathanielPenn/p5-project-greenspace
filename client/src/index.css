@@ -1,5 +1,33 @@
-/* .container { */
-    /* background-image: url(${backgroundImage}); */
-    /* background-size: cover; Scale the image to cover the entire container */
-    /* background-position: center; Center the image within the container */
-  /* } */
+.all {
+  background-image: url('https://img.freepik.com/free-vector/monochrome-abstract-contour-line-illustration_53876-80532.jpg?w=2000&t=st=1681871774~exp=1681872374~hmac=c2f772c38e5050a3f862964bdc6c9bc12602185f5025b1d67b853ab6caf7c04d');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  /* opacity: .5; */
+}
+
+.NavBar{
+  background-color: #373d2041 !important;
+  z-index: 1;
+  height: 8vh;
+}
+
+.LogoHeader{
+  font-family: "Georgia", serif;
+}
+
+.reviewCards {
+  background-color: #FCAA67; /* set your desired background color */
+  color: #FFFFFF; /* set the text color to make it readable on the background */
+}
+
+.HomeButton{
+  font-family: Futura, sans-serif;
+  color: darkgreen;
+}
+
+.GearCards{
+  background-color: #FCAA67; /* set your desired background color */
+  color: #FFFFFF;
+}

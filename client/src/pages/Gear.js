@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Image, Header } from 'semantic-ui-react'
+import { Grid, Image, Header, Card } from 'semantic-ui-react'
 
 
 function Gear({item, description}) {
     return (
-        <Grid columns = 'equal'>
-        <Grid.Column  >
-            {/* <Image centered bordered size = 'medium' src={} /> */}
-            
-        </Grid.Column>
-        <Grid.Column centered verticalAlign = "middle" style={{ paddingRight: '300px' }}  >
-            <Header>{item}</Header>
-            
+        <Card className="GearCard">
+        {/* <Image src={imageUrl} wrapped ui={false} /> */}
+        <Card.Content textAlign = "center">
+          <Header>{item}</Header>
+          <Card.Description >
             <p>{description}</p>
-        </Grid.Column>
-        </Grid>
+          </Card.Description>
+        </Card.Content>
+      </Card>
     );
   }
   

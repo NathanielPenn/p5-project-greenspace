@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Link, NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Box, Button } from "../styles";
 import { Grid, Header, Card } from 'semantic-ui-react'
+
 
 function Trails() {
   // const { id } = useParams();
@@ -17,20 +17,20 @@ function Trails() {
   }, []);
 
 
-  // console.log(trail);
+  // console.log(trails.id);
   return (
-    <Card.Content>
+    <Card.Group>
       {trails.length > 0 ? (
         trails.map((trail) => (
-          <Trail key={trail.id}>
-            <div>
-              <NavLink as={Link} to={`/trails/${trail.id}`}>{trail.name}</NavLink>
-              <p>
+          <Card key={trail.id} as={Link} to={`/trails/${trail.id}`} >
+            
+              <Header as={Link} to={`/trails/${trail.id}`}>{trail.name}</Header>
+              <Card.Description>
                 {trail.location}, {trail.state}<br />
                 Length: {trail.distance} miles
-              </p>
-            </div>
-          </Trail>
+              </Card.Description>
+            
+          </Card>
           
         ))
       ) : (
@@ -41,17 +41,9 @@ function Trails() {
           </Button> */}
         </>
       )}
-    </Card.Content>
+    </Card.Group>
   );
 }
 
-const Wrapper = styled.section`
-  max-width: 800px;
-  margin: 40px auto;
-`;
-
-const Trail = styled.article`
-  margin-bottom: 24px;
-`;
 
 export default Trails;

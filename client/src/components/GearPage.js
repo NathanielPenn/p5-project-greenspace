@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import Gear from "../pages/Gear"
 import {Card} from "semantic-ui-react";
@@ -19,12 +16,12 @@ function GearPage({gears}){
     });
     // console.log(gear)
     return (
-    // <Card.Group itemsPerRow={4}>
-    //   <h1></h1>
-    // </Card.Group>
-    <div>
+    <Card.Group centered itemsPerRow={3}>
       {gear}
-    </div>
+    </Card.Group>
+    // <div>
+    //   {gear}
+    // </div>
     )
 }
 

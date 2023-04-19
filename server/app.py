@@ -67,6 +67,34 @@ class GearByID(Resource):
             )
 api.add_resource(GearByID, '/gear/<int:id>')
 
+class Users(Resource):
+    def get(self):
+        users = User.query.all()
+        users_dict = [user.to_dict() for user in users]
+
+        return make_response(
+            jsonify(users_dict),
+            200
+        )
+api.add_resource(Users, '/users', endpoint= 'users')
+
+class UserByID(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        user_dict = user.to_dict()
+
+        if not user:
+            return make_response(
+                {"error": "user not found"}, 
+                404
+            )
+        else:
+            return make_response(
+                jsonify(user_dict),
+                200
+            )
+api.add_resource(UserByID, '/users/<int:id>')
+
 class Reviews(Resource):
     def get(self):
         reviews = Review.query.all()
@@ -77,7 +105,7 @@ class Reviews(Resource):
             200
         )
 
-    def post(self):
+    def post(self, trail_id):
 
         if session.get('user_id'):
 
@@ -94,6 +122,7 @@ class Reviews(Resource):
                     review_text=review_text,
                     rating=rating,
                     user_id=session['user_id'],
+                    trail_id=trail_id
                 )
 
                 db.session.add(review)
@@ -154,6 +183,37 @@ class ReviewByID(Resource):
                 jsonify(review_dict),
                 200
             )
+    def post(self, id):
+
+        if session.get('user_id'):
+
+            request_json = request.get_json()
+
+            title = request_json['title']
+            review_text = request_json['review_text']
+            rating = request_json['rating']
+
+            try:
+
+                review = Review(
+                    title=title,
+                    review_text=review_text,
+                    rating=rating,
+                    user_id=session['user_id'],
+                    trail_id=id
+                )
+
+                db.session.add(review)
+                db.session.commit()
+
+                return review.to_dict(), 201
+
+            except IntegrityError as ie:
+                print(ie.orig)
+                print(ie.statement)
+                return {'error': '422 Unprocessable Entity'}, 422
+
+        return {'error': '401 Unauthorized'}, 401
 
     def patch(self, id):
 
@@ -185,6 +245,24 @@ class ReviewByID(Resource):
         )
     
 api.add_resource(ReviewByID, '/reviews/<int:id>')
+
+class TrailsByIDReviews(Resource):
+    def get(self, id):
+        trailReviews = Review.query.filter_by(trail_id=id).all()
+        reviews_list = [review.to_dict() for review in trailReviews]
+
+        if not trailReviews:
+            return make_response(
+                {"error": "review not found"}, 
+                404
+            )
+        else:
+            return make_response(
+                jsonify(reviews_list),
+                200
+            )
+api.add_resource(TrailsByIDReviews, '/trails/<int:id>/reviews')
+
 
 class Signup(Resource):
     

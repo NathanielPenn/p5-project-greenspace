@@ -21,7 +21,7 @@ def make_trail():
 
     trails = [
         # Trail(name= "", location= "", state= "", distance= "", elevation = "", difficulty = "")
-        Trail(name= "Rock Creek Valley Trail", location= "Rock Creek Park", state= "Maryland", distance= "10.8", elevation = "990", difficulty = "Moderate", review_id = randint(1,20)),
+        Trail(name= "Rock Creek Valley Trail", location= "Rock Creek Park", state= "Maryland", distance= "10.8", elevation = "990", difficulty = "Moderate"),
         Trail(name= "Abilene Dam Road Loop", location= "Abilene", state= "Texas", distance= "5.3", elevation = "183", difficulty = "Moderate"),
         Trail(name= "Baldy Peak", location= "Uncompahgre National Forest", state= "Colorado", distance= "6.2", elevation = "2122", difficulty = "Hard"),
         Trail(name= "Lower Antelope Canyon", location= "Lake Powell Navajo Tribal Park", state= "Arizona", distance= "0.6", elevation = "98", difficulty = "Easy"),
@@ -93,8 +93,7 @@ def make_review():
             review_text= fake.sentence(),
             rating= randint(1,10),
             user_id= randint(1,10),
-            
-            # trail_id= i
+            trail_id= randint(1,10)
         )
         reviews_obj.append(review)
 

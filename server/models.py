@@ -13,7 +13,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__= "users"
 
-    serialize_rules = ('-trails', '-gears', '-reviews', '-created_at')
+    serialize_rules = ('-trails', '-gears', '-reviews.user_id','-reviews.trail_id', '-created_at')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
@@ -43,7 +43,10 @@ class User(db.Model, SerializerMixin):
 class Trail(db.Model, SerializerMixin):
     __tablename__ = 'trails'
 
-    serialize_rules= ('-review.trails', '-review.user._password_hash','-review.user_id', '-review_id', '-created_at')
+    serialize_only = ( 'id', 'name', 'location', 'state', 'distance', 'elevation', 'difficulty', 'review')
+    # serialize_rules = ('-users', '-review', '-review.user._password_hash', '-review.user_id', '-created_at')
+
+    # serialize_rules= ('-review', '-gear_id', '-users', '-reviews','-review.trails', '-review.user._password_hash','-review.user_id', '-created_at')
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -55,15 +58,21 @@ class Trail(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
 
-    review_id = db.Column(db.Integer, db.ForeignKey("reviews.id"))
+    review = db.relationship('Review', backref='trail')
     gear_id = db.Column(db.Integer, db.ForeignKey("gears.id"))
+    # review_id = db.Column(db.Integer, db.ForeignKey("reviews.id"))
     # checklist_id = db.Column(db.Integer, db.ForeignKey('checklists.id'))
     # checklist = db.relationship('Checklist', backref='trail')
+    # def serialize(self, depth=1):
+    #     return super().serialize(max_depth=depth)
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
-    serialize_rules = ('-users', '-trails.review_id', '-trails.review', '-created_at')
+    serialize_only = ( 'id', 'title', 'review_text', 'rating', 'user_id', 'trail_id', 'user.username')
+    # serialize_rules = ('-users', '-trail.reviews', '-created_at', 'trail')
+
+    # serialize_rules = ('-users', '-trails.review_id', '-trails.review', '-created_at','-trails' )
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -73,15 +82,19 @@ class Review(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate= db.func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    trails = db.relationship('Trail', backref='review')
-    # trail_id = db.Column(db.Integer, db.ForeignKey("trails.id"))
+    # trails = db.relationship('Trail', backref='review')
+    trail_id = db.Column(db.Integer, db.ForeignKey("trails.id"))
 
     @validates('rating')
     def validate_rating_col(self, key, rating):
+        rating = int(rating)
         if not 1 <= rating <= 10:
             raise ValueError('Rating must be between 1 and 10')
         else:
             return rating
+    
+    def serialize(self, depth=1):
+        return super().serialize(max_depth=depth)
 
 class Gear(db.Model, SerializerMixin):
     __tablename__ = 'gears'

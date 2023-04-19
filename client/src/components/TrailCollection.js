@@ -3,7 +3,7 @@ import React from "react";
 import TrailCard from "./TrailCard";
 import {Card} from "semantic-ui-react";
 
-// COLLECT ALL PROJECTS OR DOA  FETCH TO SPECIFY TO USER
+// COLLECT ALL PROJECTS OR DO A  FETCH TO SPECIFY TO USER
 
 
 function TrailCollection({trails}){
@@ -26,7 +26,7 @@ function TrailCollection({trails}){
 
   
   return (
-    <Card.Group itemsPerRow={4}>
+    <Card.Group itemsPerRow={3}>
       {trailCards}
     </Card.Group>
   )

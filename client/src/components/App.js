@@ -10,6 +10,7 @@ import Gear from "../pages/Gear";
 import TrailCard from "./TrailCard"
 import TrailCollection from "./TrailCollection"
 import TrailsModal from "./TrailsModal"
+import '../index.css'
 // import backgroundImage from '../styles/80532.jpg'
 
 export const UserContext = createContext()
@@ -19,7 +20,9 @@ function App() {
   const [trails, setTrails] = useState([]);
   const [gears, setGears] = useState([]);
   const [review, setReview] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [clickState, setClickState] = useState('');
+  const [refresh, setRefresh] = useState(false);
   
   useEffect(() => {
     fetch("/check_session").then((r) => {
@@ -44,36 +47,50 @@ function App() {
   useEffect(() => {
     fetch("/reviews")   
       .then((res) => res.json())
-      .then((data) => setReview(data));
+      .then((data) => setReviews(data));
   }, []);
+
+
+  const handleReviewDelete = (index, reviewId) => {
+    fetch(`/reviews/${reviewId}`, {
+      method: "DELETE"
+    })
+    .then(() => {
+      // const newReviews = [...reviews];
+      // newReviews.splice(index, 1);
+      setReviews(reviews.filter(review => reviewId !== review.id ));
+      console.log(reviews)
+    })
+    .catch(error => console.error(error));
+  };
 
   if (!user) return <Login onLogin={setUser} />;
 
   return (
-    <>
+    <div className = "all">
       <UserContext.Provider value = {[user, setUser]}>
-        <NavBar />
+        <NavBar className = "navbar"/>
         <main>
           <Switch className={styles.container}>
             <Route exact path="/">
-              Welcome to GreenSpace
+              Welcome to GreenSpace this is where i write things
             </Route>
             <Route exact path="/trails">
               <Trails/>
             </Route>
             <Route path={`/trails/:id`}>
-              <TrailCard trail= {trails}/>
+              <TrailCard setRefresh = {setRefresh} reviews = {reviews} trail= {trails} setReviews={setReviews} handleReviewDelete= {handleReviewDelete}/>
             </Route>
             <Route path="/gear" >
               <GearPage gears = {gears}/>
             </Route>
             <Route path="/reviews" >
-              <ReviewPage reviews = {review} setReviews = {setReview} />
+              <ReviewPage reviews = {reviews} setReviews = {setReviews} handleReviewDelete= {handleReviewDelete}/>
             </Route>
           </Switch>
         </main>
         </UserContext.Provider>
-    </>
+    </div>
   );
 }
 

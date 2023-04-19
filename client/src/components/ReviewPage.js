@@ -1,90 +1,3 @@
-
-// import React, { useEffect, useState } from "react";
-// import Review from "../pages/Review"
-// import {Card} from "semantic-ui-react";
-
-// function ReviewPage({reviews}){
-
-//     const [updatedReviews, setUpdatedReviews] = useState(reviews);
-//     // const [isEditing, setIsEditing] = useState(reviews);
-
-//     const handleReviewSave = (index, updatedReview) => {
-//         fetch(`/reviews/${updatedReview.id}`, {
-//           method: 'PATCH',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify(updatedReview)
-//         })
-//         .then(response => {
-//           if (!response.ok) {
-//             throw new Error('Failed to update review');
-//           }
-//           return response.json();
-//         })
-//         .then(data => {
-//           setUpdatedReviews((prevReviews) => {
-//             const newReviews = [...prevReviews];
-//             newReviews[index] = data;
-//             return newReviews;
-//           });
-//         })
-//         .catch(error => {
-//           console.error(error);
-//         });
-//       }
-
-//     // const handleReviewSave = (index, updatedReview) => {
-//     //     setUpdatedReviews((prevReviews) => {
-//     //         const newReviews = [...prevReviews];
-//     //         newReviews[index] = updatedReview;
-//     //         return newReviews;
-//     //     });
-//     // };
-    
-//     const handleEditClick = (index) => {
-//         setUpdatedReviews((prevReviews) => {
-//             const newReviews = [...prevReviews];
-//             newReviews[index].isEditing = true;
-//             return newReviews;
-//         });
-//     };
-
-
-    
-    
-//     const review = reviews?.length > 0 && reviews.map((review, index) => {
-
-//         return (
-            
-//             <Review
-//                 key = {index}
-//                 title = {review.title}
-//                 review_text = {review.review_text}
-//                 rating = {review.rating}
-//                 user = {review.user_id}
-//                 onEditClick={() => handleEditClick(index)}
-//                 onSaveClick={(updatedTitle, updatedReviewText) =>
-//                     handleReviewSave(index, {
-//                         ...review,
-//                         title: updatedTitle,
-//                         review_text: updatedReviewText
-//                     })
-//                 }
-//             />
-//         );
-//     });
-
-//     return (
-//     <Card.Group itemsPerRow={4}>
-//       {review}
-//     </Card.Group>
-    
-//     )
-// }
-
-// export default ReviewPage;
-
 import React, { useEffect, useState } from "react";
 import Review from "../pages/Review"
 import { Card } from "semantic-ui-react";
@@ -112,8 +25,8 @@ function ReviewPage({reviews, setReviews}) {
   };
 
   const handleReviewSave = (index, updatedReview) => {
-    console.log(updatedReview)
-    console.log(index)
+    // console.log(updatedReview)
+    // console.log(index)
     fetch(`/reviews/${updatedReview.id}`, {
       method: 'PATCH',
       headers: {
@@ -155,17 +68,19 @@ function ReviewPage({reviews, setReviews}) {
     return (
       <Review
         key={index}
+        index={index}
         title={review.title}
         review_text={review.review_text}
         rating={review.rating}
-        user={review.user_id}
-        onDeleteClick={() => handleReviewDelete(index)}
+        user={review.user.username}
+        onDeleteClick={() => handleReviewDelete(index, review.id)}
         onEditClick={() => handleEditClick(index)}
-        onSaveClick={(updatedTitle, updatedReviewText) =>
+        onSaveClick={(updatedTitle, updatedReviewText, updatedRating) =>
           handleReviewSave(index, {
             ...review,
             title: updatedTitle,
-            review_text: updatedReviewText
+            review_text: updatedReviewText,
+            rating: updatedRating
           })
         }
         isEditing={review.isEditing}
@@ -175,7 +90,7 @@ function ReviewPage({reviews, setReviews}) {
   });
 
   return (
-    <Card.Group itemsPerRow={4}>
+    <Card.Group itemsPerRow={3}>
       {review}
     </Card.Group>
   );

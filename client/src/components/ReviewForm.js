@@ -1,19 +1,23 @@
 import React, { useState } from "react";
+import {useHistory} from 'react-router-dom';
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles";
+import {Form} from 'semantic-ui-react'
 
-function ReviewForm({ onLogin }) {
+function ReviewForm({ id, addReview, setRefresh}) {
 //   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
   const [review_text, setReviewText] = useState("");
   const [rating, setRating] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const history = useHistory()
 
   function handleSubmit(e) {
     e.preventDefault();
     setErrors([]);
     setIsLoading(true);
-    fetch("/reviews", {
+    fetch(`/reviews/${id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -27,17 +31,32 @@ function ReviewForm({ onLogin }) {
     }).then((r) => {
         setIsLoading(false);
         if (r.ok) {
-            r.json().then((user) => onLogin(user));
+          r.json().then((r) => {
+            console.log(r);
+            addReview(r);
+            setTitle("");
+            setReviewText("");
+            setRating("");
+            setSubmitted(true);
+            setRefresh(prev => !prev)
+            e.target.reset()
+          })
+            history.push(`${id}`)
         } else {
             r.json().then((err) => setErrors(err.errors));
         }
     });
   }
 
+  if (submitted) {
+    return <p>Review Submitted!</p>;
+  }
+
+
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <FormField>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">Title:</Label>
         <Input
           type="text"
           id="title"
@@ -47,8 +66,9 @@ function ReviewForm({ onLogin }) {
         />
       </FormField>
       <FormField>
-        <Label htmlFor="review">Review</Label>
-        <Input
+        <Label htmlFor="review">Review:</Label>
+        <Form.TextArea
+          
           type="text"
           id="review_text"
           autoComplete="off"
@@ -57,9 +77,10 @@ function ReviewForm({ onLogin }) {
         />
       </FormField>
       <FormField>
-        <Label htmlFor="rating">Rating</Label>
-        <Input
-          type="text" //NEED TO FIGURE OUT HOW TO MAKE THIS 1-10 BOXES OR SOMETHING
+        <Label htmlFor="rating">Rating 1-10:</Label>
+        <Form.Input
+          error = 'Please enter a rating between 1 and 10'
+          type="text"
           id="rating"
           value={rating}
           onChange={(e) => setRating(e.target.value)}
@@ -67,14 +88,14 @@ function ReviewForm({ onLogin }) {
         />
       </FormField>
       <FormField>
-        <Button type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
+        <Button type="submit">{isLoading ? "Loading..." : "SUBMIT"}</Button>
       </FormField>
       <FormField>
         {errors.map((err) => (
           <Error key={err}>{err}</Error>
         ))}
       </FormField>
-    </form>
+    </Form>
   );
 }
 
