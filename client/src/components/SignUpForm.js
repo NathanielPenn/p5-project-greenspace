@@ -79,7 +79,7 @@ function SignUpForm({ onLogin }) {
           autoComplete="current-password"
         />
       </FormField>
-      <FormField>
+      {/* <FormField>
         <Label htmlFor="imageUrl">Profile Image</Label>
         <Input
           type="text"
@@ -87,7 +87,7 @@ function SignUpForm({ onLogin }) {
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
         />
-      </FormField>
+      </FormField> */}
       <FormField>
         <Button type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
       </FormField>

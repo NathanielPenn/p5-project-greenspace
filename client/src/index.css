@@ -1,9 +1,11 @@
 .all {
   background-image: linear-gradient(#ffffffc0,#fcaa67a3), url('https://img.freepik.com/free-vector/monochrome-abstract-contour-line-illustration_53876-80532.jpg?w=2000&t=st=1681871774~exp=1681872374~hmac=c2f772c38e5050a3f862964bdc6c9bc12602185f5025b1d67b853ab6caf7c04d');
-  background-repeat: repeat-y;
+  /* background-repeat: repeat-y; */
   background-size: cover;
   /* max-height: ; */
-  height: 100vh;
+  /* width:fit-content; */
+  min-height: 100vh;
+  background-attachment: fixed;
   /* background-color: rgba(255, 255, 255, 0.5); */
   /* opacity: .5; */
 }
@@ -11,12 +13,13 @@
 .main{
   padding-left: 35px;
   padding-right: 35px;
+  
 }
 
 .NavBar{
   background-color: #373d2041 !important;
   z-index: 1;
-  height: 10vh;
+  height: 160px;
   margin-bottom: 35px;
   padding-top: 35px;
   padding-left: 35px;
@@ -24,7 +27,7 @@
 }
 
 .LogoHeader{
-  font-family: "Georgia", serif;
+  font-family: Futura, sans-serif;
 }
 
 .reviewCards {
@@ -43,11 +46,13 @@
 }
 
 #LoginPage{
-  background-image: linear-gradient(#fcaa6792,#fcaa674e), url('https://img.freepik.com/free-vector/monochrome-abstract-contour-line-illustration_53876-80532.jpg?w=2000&t=st=1681871774~exp=1681872374~hmac=c2f772c38e5050a3f862964bdc6c9bc12602185f5025b1d67b853ab6caf7c04d');
+  
+  background-image: linear-gradient(#ffffffc0,#fcaa67a3), url('https://img.freepik.com/free-vector/monochrome-abstract-contour-line-illustration_53876-80532.jpg?w=2000&t=st=1681871774~exp=1681872374~hmac=c2f772c38e5050a3f862964bdc6c9bc12602185f5025b1d67b853ab6caf7c04d');
   height: 100vh;
   width: 100%;
 }
 
 /* .button{
   background-color: #FCAA67 !important; rgba(255, 255, 255, 0.75),rgba(255, 255, 255, 1) 
+  (#fcaa6792,#fcaa674e) ORIGINAL SAND GRADIENT
 } */

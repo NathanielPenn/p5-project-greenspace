@@ -13,7 +13,7 @@ function Home() {
                     This is a work in progress so enjoy!
                 </Header>
                 <ul>Features coming soon:</ul>    
-                <ul>-Map integration to visualize the trail</ul>
+                <ul>-Map integration to visualize the Trails</ul>
                 <ul>-More Trails!</ul>    
                 <ul>-A search function to find Trails when there are more to choose from</ul>    
                 <ul>-A checklist to allow you to plan for your next hike</ul>     

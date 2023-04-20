@@ -19,7 +19,7 @@ function Trails() {
 
   // console.log(trails.id);
   return (
-    <Card.Group >
+    <Card.Group centered >
       {trails.length > 0 ? (
         trails.map((trail) => (
           <Card key={trail.id} as={Link} to={`/trails/${trail.id}`} style={{padding: "15px"}}>

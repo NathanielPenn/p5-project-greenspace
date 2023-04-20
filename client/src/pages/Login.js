@@ -41,7 +41,7 @@ function Login({ onLogin }) {
 }
 
 const Logo = styled.h1`
-  font-family: "Ariel", cursive;
+  font-family: Futura, sans-serif;
   font-size: 3rem;
   color: darkgreen;
   margin: 8px 0 16px;
