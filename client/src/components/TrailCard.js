@@ -94,7 +94,7 @@ function TrailCard({
 
   return (
     
-    <Card centered>
+    <Card centered >
     <Card.Content>
       <Card.Header>{name}</Card.Header>
       <Card.Meta>{location}, {state}</Card.Meta>

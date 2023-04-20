@@ -16,7 +16,7 @@ function GearPage({gears}){
     });
     // console.log(gear)
     return (
-    <Card.Group centered itemsPerRow={3}>
+    <Card.Group centered >
       {gear}
     </Card.Group>
     // <div>

@@ -19,19 +19,19 @@ function NavBar() {
     <div className="NavBar">
       <Header className="HeaderLogo"  size='huge'textAlign='center'>
         <NavLink className="HomeButton" to="/">GreenSpace</NavLink>
-      <Header sub size="large"> Welcome {user.username}</Header>
+      <Header sub size="large">Welcome {user.username}</Header>
       </Header>
-      <Button.Group color= 'olive' floated='right'>
-        <Button active as={Link} to="/trails">
+      <Button.Group active color= 'green' attached="bottom" >
+        <Button  as={Link} to="/trails">
           Trails
         </Button>
-        <Button active as={Link} to="/gear">
+        <Button  as={Link} to="/gear">
           Gear
         </Button>
-        <Button active as={Link} to="/reviews">
+        <Button  as={Link} to="/reviews">
           Reviews
         </Button>
-        <Button active onClick={handleLogoutClick}>
+        <Button  onClick={handleLogoutClick}>
           Logout
         </Button>
       </Button.Group>

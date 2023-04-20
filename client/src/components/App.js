@@ -8,6 +8,7 @@ import ReviewPage from "./ReviewPage";
 import GearPage from "./GearPage";
 import Gear from "../pages/Gear";
 import TrailCard from "./TrailCard"
+import Home from "./Home";
 // import TrailCollection from "./TrailCollection"
 // import TrailsModal from "./TrailsModal"
 import '../index.css'
@@ -71,10 +72,10 @@ function App() {
     <div className = "all">
       <UserContext.Provider value = {[user, setUser]}>
         <NavBar className = "navbar"/>
-        <main>
+        <main className = "main">
           <Switch className={styles.container}>
             <Route exact path="/">
-              Welcome to GreenSpace this is where i write things
+              <Home/>
             </Route>
             <Route exact path="/trails">
               <Trails/>

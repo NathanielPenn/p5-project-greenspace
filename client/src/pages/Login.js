@@ -3,12 +3,14 @@ import styled from "styled-components";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 import { Button } from "../styles";
+import {Card} from "semantic-ui-react"
 
 function Login({ onLogin }) {
   const [showLogin, setShowLogin] = useState(true);
 
   return (
-    <Wrapper>
+    <Card id='LoginPage'>
+    <Wrapper >
       <Logo>GreenSpace</Logo>
       {showLogin ? (
         <>
@@ -16,7 +18,7 @@ function Login({ onLogin }) {
           <Divider />
           <p>
             Don't have an account? &nbsp;
-            <Button color="secondary" onClick={() => setShowLogin(false)}>
+            <Button color="primary" onClick={() => setShowLogin(false)}>
               Sign Up
             </Button>
           </p>
@@ -27,13 +29,14 @@ function Login({ onLogin }) {
           <Divider />
           <p>
             Already have an account? &nbsp;
-            <Button color="secondary" onClick={() => setShowLogin(true)}>
+            <Button color="primary" onClick={() => setShowLogin(true)}>
               Log In
             </Button>
           </p>
         </>
       )}
     </Wrapper>
+    </Card>
   );
 }
 
@@ -45,6 +48,7 @@ const Logo = styled.h1`
 `;
 
 const Wrapper = styled.section`
+  font-family: Futura, sans-serif;
   max-width: 500px;
   margin: 40px auto;
   padding: 16px;

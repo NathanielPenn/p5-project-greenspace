@@ -19,10 +19,10 @@ function Trails() {
 
   // console.log(trails.id);
   return (
-    <Card.Group>
+    <Card.Group >
       {trails.length > 0 ? (
         trails.map((trail) => (
-          <Card key={trail.id} as={Link} to={`/trails/${trail.id}`} >
+          <Card key={trail.id} as={Link} to={`/trails/${trail.id}`} style={{padding: "15px"}}>
             
               <Header as={Link} to={`/trails/${trail.id}`}>{trail.name}</Header>
               <Card.Description>

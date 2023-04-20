@@ -13,20 +13,13 @@ function TrailCollection({trails}){
       console.log(trails)
 
       return (
-      <TrailCard
-        // name = {trail.name}
-        // location ={trail.location}     
-        // state = {trail.state}
-        // distance = {trail.distance}
-        // elevation = {trail.elevation}
-        // difficulty = {trail.difficulty}
-      />
+      <TrailCard />
     );
   });
 
   
   return (
-    <Card.Group itemsPerRow={3}>
+    <Card.Group centered itemsPerRow={3} >
       {trailCards}
     </Card.Group>
   )
